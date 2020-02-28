@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.contrib.layers import xavier_initializer
+# from tensorflow.contrib.layers import xavier_initializer
 
 
 class Model(object):
