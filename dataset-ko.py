@@ -5,9 +5,10 @@ import tensorflow as tf
 import numpy as np
 from dataset import Word2vecEmbedder, Dataset
 
+
 class Word2vecKoMorphEmbedder(Word2vecEmbedder):
     def __init__(self):
-        model = word2vec.Word2Vec.load('./word2vec/word2vec_news_morph_300.model')
+        model = word2vec.Word2Vec.load("./word2vec/word2vec_news_morph_300.model")
         max_vocab_size = 20000
         embedding_dim = 300
         super().__init__(model, max_vocab_size, embedding_dim)
@@ -17,7 +18,7 @@ class Word2vecKoMorphEmbedder(Word2vecEmbedder):
         try:
             embedding = []
             for morph, pos in self.pos_tagger.pos(sentence):
-                pair = '/'.join([morph, pos])
+                pair = "/".join([morph, pos])
                 vocab_idx = self.vocab_dict.get(pair, -1)
                 if vocab_idx > 0:
                     embedding.append(self.w2v.wv.vectors[vocab_idx])
@@ -28,11 +29,12 @@ class Word2vecKoMorphEmbedder(Word2vecEmbedder):
             # fail pos tagging
             return np.array([self.oov])
 
-class JamoEmbedder():
+
+class JamoEmbedder:
     def __init__(self):
         self.vectorizationer = jamotools.Vectorizationer(
-            rule=jamotools.rules.RULE_1,
-            max_length=None)
+            rule=jamotools.rules.RULE_1, max_length=None
+        )
         self.embedding_dim = len(self.vectorizationer.symbols)
 
     def _encode_one_hot(self, idxs):
@@ -43,30 +45,36 @@ class JamoEmbedder():
         idxs = self.vectorizationer.vectorize(sentence)
         return self._encode_one_hot(idxs)
 
-    
+
 class NSMC(Dataset):
     def __init__(self, embed_cls):
         super().__init__()
-        self.train_x, self.train_y = self._load_data('https://raw.githubusercontent.com/HaebinShin/nsmc/master/ratings_train.txt')
-        self.test_x, self.test_y = self._load_data('https://raw.githubusercontent.com/HaebinShin/nsmc/master/ratings_test.txt')
+        self.train_x, self.train_y = self._load_data(
+            "https://raw.githubusercontent.com/HaebinShin/nsmc/master/ratings_train.txt"
+        )
+        self.test_x, self.test_y = self._load_data(
+            "https://raw.githubusercontent.com/HaebinShin/nsmc/master/ratings_test.txt"
+        )
         self.embedder = embed_cls()
 
     def _maybe_download(self, _url):
-        _path = tf.keras.utils.get_file(fname=_url.split('/')[-1], origin=_url)
+        _path = tf.keras.utils.get_file(fname=_url.split("/")[-1], origin=_url)
         return _path
 
     def _load_data(self, url):
         path = self._maybe_download(url)
         contents = []
         labels = []
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, "r", encoding="utf-8") as f:
             next(f)
             for line in f:
-                _id, docu, label = line.split('\t')
-                if len(docu.strip())==0: continue
+                _id, docu, label = line.split("\t")
+                if len(docu.strip()) == 0:
+                    continue
                 contents.append(docu.strip())
                 labels.append(int(label.strip()))
         return contents, labels
+
 
 def test():
     data = NSMC(Word2vecKoMorphEmbedder)
@@ -79,8 +87,9 @@ def test():
     config.gpu_options.allow_growth = True
     with tf.Session(config=config) as sess:
         features, labels = sess.run(train_dataset)
-        print(features['x'].shape)
+        print(features["x"].shape)
         print(np.array(labels).shape)
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     test()
