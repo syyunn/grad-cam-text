@@ -5,7 +5,7 @@ from dataset import *
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
-config = tf.ConfigProto()
+config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
 
 model = Model()
