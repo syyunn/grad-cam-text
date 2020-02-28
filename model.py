@@ -1,5 +1,4 @@
 import tensorflow as tf
-# from tensorflow.contrib.layers import xavier_initializer
 
 
 class Model(object):
@@ -98,7 +97,7 @@ class Model(object):
             input_layer,
             units=100,
             activation=tf.nn.relu,
-            kernel_initializer=xavier_initializer(),
+            kernel_initializer=tf.glorot_uniform_initializer(),
             bias_initializer=tf.zeros_initializer(),
         )
         layer = tf.layers.dropout(layer, rate=0.5, training=training)
@@ -106,7 +105,7 @@ class Model(object):
             layer,
             units=50,
             activation=tf.nn.relu,
-            kernel_initializer=xavier_initializer(),
+            kernel_initializer=tf.glorot_uniform_initializer(),
             bias_initializer=tf.zeros_initializer(),
         )
         layer = tf.layers.dropout(layer, rate=0.5, training=training)
@@ -143,7 +142,7 @@ class Model(object):
             x,
             units=num_classes,
             activation=None,
-            kernel_initializer=xavier_initializer(),
+            kernel_initializer=tf.glorot_uniform_initializer(),
             bias_initializer=tf.zeros_initializer(),
         )
         return logits
