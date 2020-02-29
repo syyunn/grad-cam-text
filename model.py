@@ -46,7 +46,7 @@ class Model(object):
         with tf.name_scope("hypothesis"):
             self.hypothesis = tf.nn.softmax(self.logits_layer, name="hypothesis")
 
-        # evel
+        # eval
         if mode == tf.estimator.ModeKeys.PREDICT:
             with tf.name_scope("eval"):
                 self.prob, self.answer = tf.nn.top_k(self.hypothesis, 1)
@@ -173,7 +173,7 @@ class Model(object):
                         ),
                         axis=1,
                     )
-                )
+                )  # now to _grad_cam_c.shape = batch, max_token_length-(filter_size-1)
                 # L_gradcam_c = relu(sigma(alpha*feature_map))   (broadcasting multiply)
                 # shape: [None, length-filter_size+1]
 
