@@ -19,7 +19,7 @@ Before training, it requires word2vec binary file. Download by `word2vec.sh`, it
 **All word2vec binary have to be located on word2vec/ directory.**
 - word2vec/GoogleNews-vectors-negative300-SLIM.bin
 
-[Stanford Sentimental Treebank Dataset][sst] will be download automatically when training.
+[Stanford Sentimental Treebank Dataset(SST)][sst] will be download automatically when training.
 
 ## Training
 ```

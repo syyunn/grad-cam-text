@@ -63,7 +63,7 @@ if __name__ == "__main__":
         type=float,
     )
     parser.add(
-        "--gpu-index", dest="gpu_index", help="GPU Index Number", default="0", type=str
+        "--gpu-index", dest="gpu_index", help="GPU Index Number", default="-1", type=str
     )
 
     args = vars(parser.parse_args())
