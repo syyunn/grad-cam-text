@@ -11,3 +11,5 @@ __pycache__
 .idea/modules.xml
 .idea/vcs.xml
 .idea
+
+.DS_Store
